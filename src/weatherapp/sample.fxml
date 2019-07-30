@@ -1,8 +1,324 @@
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.*?>
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.text.*?>
+<?import java.net.URL?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import de.jensd.fx.glyphs.weathericons.*?>
+<?import javafx.scene.control.ScrollPane?>
 <GridPane fx:controller="weatherapp.Controller"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+          xmlns:fx="http://javafx.com/fxml">
+
+    <columnConstraints>
+        <ColumnConstraints percentWidth="50"></ColumnConstraints>
+        <ColumnConstraints percentWidth="50"></ColumnConstraints>
+    </columnConstraints>
+    <children>
+        <VBox spacing="5" alignment="CENTER" styleClass="text-white" GridPane.rowIndex="0" GridPane.columnIndex="0">
+            <padding ><Insets top="10"/></padding>
+            <Label text="Twoja lokalizacja" styleClass="text-black, text-16"/>
+
+            <HBox spacing="20" alignment="CENTER">
+                <TextField promptText="Wpisz miejscowość" focusTraversable="false" styleClass="field-search">
+                    <padding ><Insets top="8" left="8" right="8" bottom="8"/> </padding>
+                    <font>
+                        <Font size="15"/>
+                    </font>
+                </TextField>
+                <Button focusTraversable="false">
+                    <padding ><Insets top="8" left="8" right="8" bottom="8"/> </padding>
+                    <graphic>
+                        <FontAwesomeIconView glyphName="SEARCH" size="18px"/>
+                    </graphic>
+                </Button>
+            </HBox>
+
+
+            <ScrollPane fitToWidth="true" fitToHeight="true">
+                <content>
+                    <VBox alignment="CENTER" spacing="10" styleClass="bg-purple">
+                        <padding ><Insets top="20" left="20" right="20" bottom="20"/> </padding>
+                        <Label text="Warszawa, Pl" styleClass="localization-font">
+                            <padding><Insets top="50"/></padding>
+                        </Label>
+
+                        <HBox spacing="50" alignment="CENTER">
+                            <padding><Insets bottom="25"/></padding>
+                            <HBox spacing="10">
+                                <WeatherIconView glyphName="SUNRISE" size="18px" styleClass="icon-white"/>
+                                <Label text="06:00"/>
+                            </HBox>
+                            <HBox spacing="10">
+                                <WeatherIconView glyphName="SUNSET" size="18px" styleClass="icon-white"/>
+                                <Label text="21:00"/>
+                            </HBox>
+                        </HBox>
+                        <Label text="Lekkie zachmurzenie" styleClass="tempreture-description"/>
+                        <HBox spacing="10" alignment="CENTER">
+                            <WeatherIconView glyphName="DAY_RAIN" size="45px" styleClass="icon-white"/>
+                            <Label text="20°C" styleClass="tempreture-number"/>
+                        </HBox>
+                        <HBox spacing="50" alignment="CENTER">
+                            <padding><Insets top="50"/></padding>
+                            <HBox spacing="10">
+                                <WeatherIconView glyphName="WINDY" size="20px" styleClass="icon-white"/>
+                                <VBox spacing="5">
+                                    <Label text="Wiatr"/>
+                                    <Label text="18km/h" styleClass="text-bold">
+                                    </Label>
+                                </VBox>
+                            </HBox>
+                            <HBox spacing="10">
+                                <WeatherIconView glyphName="HUMIDITY" size="20px" styleClass="icon-white"/>
+                                <VBox spacing="5">
+                                    <Label text="Wilgotność"/>
+                                    <Label text="25%" styleClass="text-bold"/>
+                                </VBox>
+                            </HBox>
+                            <HBox spacing="10">
+                                <WeatherIconView glyphName="BAROMETER" size="20px" styleClass="icon-white"/>
+                                <VBox spacing="5">
+                                    <Label text="Ciśnienie"/>
+                                    <Label text="1005 hPa" styleClass="text-bold"/>
+                                </VBox>
+                            </HBox>
+                        </HBox>
+                        <Label fx:id="chartDate01" styleClass="chart-label">
+                            <padding ><Insets top="50" /> </padding>
+                        </Label>
+                        <LineChart fx:id="lineChart01" horizontalGridLinesVisible="false"
+                                   horizontalZeroLineVisible="false"
+                                   verticalGridLinesVisible="false" verticalZeroLineVisible="false"
+                                   legendVisible="false" minHeight="180" styleClass="bg-white">
+                            <xAxis>
+                                <CategoryAxis fx:id="timeAxis01"/>
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis fx:id="tempretureAxis01" tickLabelsVisible="false" tickMarkVisible="false"/>
+                            </yAxis>
+                        </LineChart>
+
+                        <Label fx:id="chartDate02" styleClass="chart-label">
+                            <padding ><Insets top="50" /> </padding>
+                        </Label>
+                        <LineChart fx:id="lineChart02" horizontalGridLinesVisible="false"
+                                   horizontalZeroLineVisible="false"
+                                   verticalGridLinesVisible="false" verticalZeroLineVisible="false"
+                                   legendVisible="false" minHeight="180" styleClass="bg-white">
+                            <xAxis>
+                                <CategoryAxis fx:id="timeAxis02"/>
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis fx:id="tempretureAxis02" tickLabelsVisible="false" tickMarkVisible="false"/>
+                            </yAxis>
+                        </LineChart>
+
+                        <Label fx:id="chartDate03" styleClass="chart-label">
+                            <padding ><Insets top="50" /> </padding>
+                        </Label>
+                        <LineChart fx:id="lineChart03" horizontalGridLinesVisible="false"
+                                   horizontalZeroLineVisible="false"
+                                   verticalGridLinesVisible="false" verticalZeroLineVisible="false"
+                                   legendVisible="false" minHeight="180" styleClass="bg-white">
+                            <xAxis>
+                                <CategoryAxis fx:id="timeAxis03"/>
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis fx:id="tempretureAxis03" tickLabelsVisible="false" tickMarkVisible="false"/>
+                            </yAxis>
+                        </LineChart>
+
+                        <Label fx:id="chartDate04" styleClass="chart-label">
+                            <padding ><Insets top="50" /> </padding>
+                        </Label>
+                        <LineChart fx:id="lineChart04" horizontalGridLinesVisible="false"
+                                   horizontalZeroLineVisible="false"
+                                   verticalGridLinesVisible="false" verticalZeroLineVisible="false"
+                                   legendVisible="false" minHeight="180" styleClass="bg-white">
+                            <xAxis>
+                                <CategoryAxis fx:id="timeAxis04"/>
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis fx:id="tempretureAxis04" tickLabelsVisible="false" tickMarkVisible="false"/>
+                            </yAxis>
+                        </LineChart>
+
+                        <Label fx:id="chartDate05" styleClass="chart-label">
+                            <padding ><Insets top="50" /> </padding>
+                        </Label>
+                        <LineChart fx:id="lineChart05" horizontalGridLinesVisible="false"
+                                   horizontalZeroLineVisible="false"
+                                   verticalGridLinesVisible="false" verticalZeroLineVisible="false"
+                                   legendVisible="false" minHeight="180" styleClass="bg-white">
+                            <xAxis>
+                                <CategoryAxis fx:id="timeAxis05"/>
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis fx:id="tempretureAxis05" tickLabelsVisible="false" tickMarkVisible="false"/>
+                            </yAxis>
+                        </LineChart>
+
+                    </VBox>
+                </content>
+            </ScrollPane>
+        </VBox>
+
+
+        <VBox spacing="5" alignment="CENTER" styleClass="text-white" GridPane.rowIndex="0" GridPane.columnIndex="1">
+            <padding ><Insets top="10"/></padding>
+            <Label text="Cel podróży" styleClass="text-black, text-16"/>
+
+            <HBox spacing="20" alignment="CENTER">
+                <TextField promptText="Wpisz miejscowość" focusTraversable="false" styleClass="field-search">
+                    <padding ><Insets top="8" left="8" right="8" bottom="8"/> </padding>
+                    <font>
+                        <Font size="15"/>
+                    </font>
+                </TextField>
+                <Button focusTraversable="false">
+                    <padding ><Insets top="8" left="8" right="8" bottom="8"/> </padding>
+                    <graphic>
+                        <FontAwesomeIconView glyphName="SEARCH" size="18px"/>
+                    </graphic>
+                </Button>
+            </HBox>
+
+
+            <ScrollPane fitToWidth="true" fitToHeight="true">
+                <content>
+                    <VBox alignment="CENTER" spacing="10" styleClass="bg-darkblue">
+                        <padding ><Insets top="20" left="20" right="20" bottom="20"/> </padding>
+                        <Label text="Warszawa, Pl" styleClass="localization-font">
+                            <padding><Insets top="50"/></padding>
+                        </Label>
+
+                        <HBox spacing="50" alignment="CENTER">
+                            <padding><Insets bottom="25"/></padding>
+                            <HBox spacing="10">
+                                <WeatherIconView glyphName="SUNRISE" size="18px" styleClass="icon-white"/>
+                                <Label text="06:00"/>
+                            </HBox>
+                            <HBox spacing="10">
+                                <WeatherIconView glyphName="SUNSET" size="18px" styleClass="icon-white"/>
+                                <Label text="21:00"/>
+                            </HBox>
+                        </HBox>
+                        <Label text="Lekkie zachmurzenie" styleClass="tempreture-description"/>
+                        <HBox spacing="10" alignment="CENTER">
+                            <WeatherIconView glyphName="DAY_RAIN" size="45px" styleClass="icon-white"/>
+                            <Label text="20°C" styleClass="tempreture-number"/>
+                        </HBox>
+                        <HBox spacing="50" alignment="CENTER">
+                            <padding><Insets top="50"/></padding>
+                            <HBox spacing="10">
+                                <WeatherIconView glyphName="WINDY" size="20px" styleClass="icon-white"/>
+                                <VBox spacing="5">
+                                    <Label text="Wiatr"/>
+                                    <Label text="18km/h" styleClass="text-bold">
+                                    </Label>
+                                </VBox>
+                            </HBox>
+                            <HBox spacing="10">
+                                <WeatherIconView glyphName="HUMIDITY" size="20px" styleClass="icon-white"/>
+                                <VBox spacing="5">
+                                    <Label text="Wilgotność"/>
+                                    <Label text="25%" styleClass="text-bold"/>
+                                </VBox>
+                            </HBox>
+                            <HBox spacing="10">
+                                <WeatherIconView glyphName="BAROMETER" size="20px" styleClass="icon-white"/>
+                                <VBox spacing="5">
+                                    <Label text="Ciśnienie"/>
+                                    <Label text="1005 hPa" styleClass="text-bold"/>
+                                </VBox>
+                            </HBox>
+                        </HBox>
+                        <Label fx:id="chartDate11" styleClass="chart-label">
+                            <padding ><Insets top="50" /> </padding>
+                        </Label>
+                        <LineChart fx:id="lineChart11" horizontalGridLinesVisible="false"
+                                   horizontalZeroLineVisible="false"
+                                   verticalGridLinesVisible="false" verticalZeroLineVisible="false"
+                                   legendVisible="false" minHeight="180" styleClass="bg-white">
+                            <xAxis>
+                                <CategoryAxis fx:id="timeAxis11"/>
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis fx:id="tempretureAxis11" tickLabelsVisible="false" tickMarkVisible="false"/>
+                            </yAxis>
+                        </LineChart>
+
+                        <Label fx:id="chartDate12" styleClass="chart-label">
+                            <padding ><Insets top="50" /> </padding>
+                        </Label>
+                        <LineChart fx:id="lineChart12" horizontalGridLinesVisible="false"
+                                   horizontalZeroLineVisible="false"
+                                   verticalGridLinesVisible="false" verticalZeroLineVisible="false"
+                                   legendVisible="false" minHeight="180" styleClass="bg-white">
+                            <xAxis>
+                                <CategoryAxis fx:id="timeAxis12"/>
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis fx:id="tempretureAxis12" tickLabelsVisible="false" tickMarkVisible="false"/>
+                            </yAxis>
+                        </LineChart>
+
+                        <Label fx:id="chartDate13" styleClass="chart-label">
+                            <padding ><Insets top="50" /> </padding>
+                        </Label>
+                        <LineChart fx:id="lineChart13" horizontalGridLinesVisible="false"
+                                   horizontalZeroLineVisible="false"
+                                   verticalGridLinesVisible="false" verticalZeroLineVisible="false"
+                                   legendVisible="false" minHeight="180" styleClass="bg-white">
+                            <xAxis>
+                                <CategoryAxis fx:id="timeAxis13"/>
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis fx:id="tempretureAxis13" tickLabelsVisible="false" tickMarkVisible="false"/>
+                            </yAxis>
+                        </LineChart>
+
+                        <Label fx:id="chartDate14" styleClass="chart-label">
+                            <padding ><Insets top="50" /> </padding>
+                        </Label>
+                        <LineChart fx:id="lineChart14" horizontalGridLinesVisible="false"
+                                   horizontalZeroLineVisible="false"
+                                   verticalGridLinesVisible="false" verticalZeroLineVisible="false"
+                                   legendVisible="false" minHeight="180" styleClass="bg-white">
+                            <xAxis>
+                                <CategoryAxis fx:id="timeAxis14"/>
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis fx:id="tempretureAxis14" tickLabelsVisible="false" tickMarkVisible="false"/>
+                            </yAxis>
+                        </LineChart>
+
+                        <Label fx:id="chartDate15" styleClass="chart-label">
+                            <padding ><Insets top="50" /> </padding>
+                        </Label>
+                        <LineChart fx:id="lineChart15" horizontalGridLinesVisible="false"
+                                   horizontalZeroLineVisible="false"
+                                   verticalGridLinesVisible="false" verticalZeroLineVisible="false"
+                                   legendVisible="false" minHeight="180" styleClass="bg-white">
+                            <xAxis>
+                                <CategoryAxis fx:id="timeAxis15"/>
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis fx:id="tempretureAxis15" tickLabelsVisible="false" tickMarkVisible="false"/>
+                            </yAxis>
+                        </LineChart>
+
+                    </VBox>
+                </content>
+            </ScrollPane>
+        </VBox>
+    </children>
+
+    <stylesheets>
+        <URL value="@css/main.css"></URL>
+    </stylesheets>
 </GridPane>
