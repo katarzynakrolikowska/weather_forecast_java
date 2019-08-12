@@ -1,0 +1,189 @@
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.text.*?>
+<?import java.net.URL?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import de.jensd.fx.glyphs.weathericons.*?>
+<?import javafx.scene.control.ScrollPane?>
+<GridPane fx:controller="weatherapp.Controller"
+          xmlns:fx="http://javafx.com/fxml">
+
+    <columnConstraints>
+        <ColumnConstraints percentWidth="50"></ColumnConstraints>
+        <ColumnConstraints percentWidth="50"></ColumnConstraints>
+    </columnConstraints>
+    <children>
+        <VBox fx:id="userContentVbox" alignment="CENTER" styleClass="text-white, bg-purple" GridPane.rowIndex="0"
+              GridPane.columnIndex="0">
+
+            <GridPane styleClass="bg-white" alignment="CENTER" hgap="10" vgap="10">
+                <padding ><Insets topRightBottomLeft="15"/></padding>
+                <Label text="Twoja lokalizacja" styleClass="text-black, text-16" GridPane.columnIndex="0"
+                       GridPane.rowIndex="0" GridPane.halignment="CENTER"/>
+                <TextField promptText="Wpisz miejscowość" focusTraversable="false" styleClass="field-search"
+                           GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <padding ><Insets top="8" left="8" right="8" bottom="8"/> </padding>
+                    <font>
+                        <Font size="15"/>
+                    </font>
+                </TextField>
+                <Button focusTraversable="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <padding ><Insets top="8" left="8" right="8" bottom="8"/> </padding>
+                    <graphic>
+                        <FontAwesomeIconView glyphName="SEARCH" size="18px"/>
+                    </graphic>
+                </Button>
+
+            </GridPane>
+
+            <ScrollPane fitToWidth="true" fitToHeight="true">
+                <content>
+                    <VBox fx:id="userWeatherDataVbox" alignment="CENTER" spacing="10">
+                        <padding ><Insets top="20" left="20" right="20" bottom="20"/> </padding>
+                        <Label fx:id="userCurrentDateLabel" styleClass="text-16"/>
+                        <Label fx:id="userCityName" styleClass="localization-font">
+                            <padding><Insets top="40"/></padding>
+                        </Label>
+
+                        <HBox spacing="30" alignment="CENTER">
+                            <padding><Insets bottom="25"/></padding>
+                            <HBox spacing="10">
+                                <WeatherIconView glyphName="SUNRISE" size="18px" styleClass="icon-white"/>
+                                <Label fx:id="userCitySunriseTime" styleClass="text-bold"/>
+                            </HBox>
+                            <HBox spacing="10">
+                                <WeatherIconView glyphName="SUNSET" size="18px" styleClass="icon-white"/>
+                                <Label fx:id="userCitySunsetTime" styleClass="text-bold"/>
+                            </HBox>
+                        </HBox>
+
+                        <Label fx:id="userCityWeatherDescription" styleClass="tempreture-description"/>
+                        <HBox spacing="10" alignment="CENTER">
+                            <WeatherIconView fx:id="userCityWeatherIcon" size="45px"
+                                             styleClass="icon-white"/>
+                            <Label fx:id="userCityMainTempreture" styleClass="tempreture-number"/>
+                        </HBox>
+
+
+                        <HBox spacing="50" alignment="CENTER">
+                            <padding><Insets top="35" bottom="30"/></padding>
+                            <HBox spacing="10">
+                                <WeatherIconView glyphName="WINDY" size="20px" styleClass="icon-white"/>
+                                <VBox spacing="5">
+                                    <Label text="Wiatr"/>
+                                    <Label fx:id="userCityWindSpeed" styleClass="text-bold">
+                                    </Label>
+                                </VBox>
+                            </HBox>
+                            <HBox spacing="10">
+                                <WeatherIconView glyphName="HUMIDITY" size="20px" styleClass="icon-white"/>
+                                <VBox spacing="5">
+                                    <Label text="Wilgotność"/>
+                                    <Label fx:id="userCityHumidity" styleClass="text-bold"/>
+                                </VBox>
+                            </HBox>
+                            <HBox spacing="10">
+                                <WeatherIconView glyphName="BAROMETER" size="20px" styleClass="icon-white"/>
+                                <VBox spacing="5">
+                                    <Label text="Ciśnienie"/>
+                                    <Label fx:id="userCityPressure" styleClass="text-bold"/>
+                                </VBox>
+                            </HBox>
+                        </HBox>
+                        <Label text="Następne dni" styleClass="text-22"/>
+
+                    </VBox>
+                </content>
+            </ScrollPane>
+        </VBox>
+
+
+        <VBox fx:id="travelContentVbox" alignment="CENTER" styleClass="text-white, bg-lightblue" GridPane.rowIndex="0"
+              GridPane.columnIndex="1">
+
+            <GridPane styleClass="bg-white" alignment="CENTER" hgap="10" vgap="10">
+                <padding ><Insets topRightBottomLeft="15"/></padding>
+                <Label text="Cel podróży" styleClass="text-black, text-16" GridPane.columnIndex="0"
+                       GridPane.rowIndex="0" GridPane.halignment="CENTER"/>
+                <TextField promptText="Wpisz miejscowość" focusTraversable="false" styleClass="field-search"
+                           GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <padding ><Insets top="8" left="8" right="8" bottom="8"/> </padding>
+                    <font>
+                        <Font size="15"/>
+                    </font>
+                </TextField>
+                <Button focusTraversable="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <padding ><Insets top="8" left="8" right="8" bottom="8"/> </padding>
+                    <graphic>
+                        <FontAwesomeIconView glyphName="SEARCH" size="18px"/>
+                    </graphic>
+                </Button>
+
+            </GridPane>
+
+            <ScrollPane fitToWidth="true" fitToHeight="true">
+                <content>
+                    <VBox fx:id="travelWeatherDataVbox" alignment="CENTER" spacing="10">
+                        <padding ><Insets top="20" left="20" right="20" bottom="20"/> </padding>
+                        <Label fx:id="travelCurrentDateLabel" styleClass="text-16"/>
+                        <Label fx:id="travelCityName" styleClass="localization-font">
+                            <padding><Insets top="40"/></padding>
+                        </Label>
+
+                        <HBox spacing="40" alignment="CENTER">
+                            <padding><Insets bottom="25"/></padding>
+                            <HBox spacing="10">
+                                <WeatherIconView glyphName="SUNRISE" size="18px" styleClass="icon-white"/>
+                                <Label fx:id="travelCitySunriseTime" styleClass="text-bold"/>
+                            </HBox>
+                            <HBox spacing="10">
+                                <WeatherIconView glyphName="SUNSET" size="18px" styleClass="icon-white"/>
+                                <Label fx:id="travelCitySunsetTime" styleClass="text-bold"/>
+                            </HBox>
+                        </HBox>
+                        <Label fx:id="travelCityWeatherDescription" styleClass="tempreture-description"/>
+                        <HBox spacing="10" alignment="CENTER">
+                            <WeatherIconView fx:id="travelCityWeatherIcon" size="45px"
+                                             styleClass="icon-white"/>
+                            <Label fx:id="travelCityMainTempreture" styleClass="tempreture-number"/>
+                        </HBox>
+                        <HBox spacing="50" alignment="CENTER">
+                            <padding><Insets top="35" bottom="30"/></padding>
+                            <HBox spacing="10">
+                                <WeatherIconView glyphName="WINDY" size="20px" styleClass="icon-white"/>
+                                <VBox spacing="5">
+                                    <Label text="Wiatr"/>
+                                    <Label fx:id="travelCityWindSpeed" styleClass="text-bold">
+                                    </Label>
+                                </VBox>
+                            </HBox>
+                            <HBox spacing="10">
+                                <WeatherIconView glyphName="HUMIDITY" size="20px" styleClass="icon-white"/>
+                                <VBox spacing="5">
+                                    <Label text="Wilgotność"/>
+                                    <Label fx:id="travelCityHumidity" styleClass="text-bold"/>
+                                </VBox>
+                            </HBox>
+                            <HBox spacing="10">
+                                <WeatherIconView glyphName="BAROMETER" size="20px" styleClass="icon-white"/>
+                                <VBox spacing="5">
+                                    <Label text="Ciśnienie"/>
+                                    <Label fx:id="travelCityPressure" styleClass="text-bold"/>
+                                </VBox>
+                            </HBox>
+                        </HBox>
+                        <Label text="Następne dni" styleClass="text-22"/>
+                    </VBox>
+                </content>
+            </ScrollPane>
+        </VBox>
+    </children>
+
+    <stylesheets>
+        <URL value="@css/main.css"></URL>
+    </stylesheets>
+</GridPane>

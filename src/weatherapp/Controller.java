@@ -1,132 +1,115 @@
 package weatherapp;
 
+import de.jensd.fx.glyphs.weathericons.WeatherIconView;
 import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import net.aksingh.owmjapis.api.APIException;
+import weatherapp.model.ForecastControls;
+import weatherapp.model.FiveDaysForecastData;
+import weatherapp.model.MyDate;
 import weatherapp.model.WeatherChart;
 
 public class Controller {
 
     @FXML
-    private CategoryAxis timeAxis01;
+    private VBox userContentVbox;
     @FXML
-    private NumberAxis tempretureAxis01;
-    @FXML
-    private LineChart<String, Number> lineChart01;
-    @FXML
-    private Label chartDate01;
+    private Label userCurrentDateLabel;
 
     @FXML
-    private CategoryAxis timeAxis02;
+    private Label userCityName;
     @FXML
-    private NumberAxis tempretureAxis02;
+    private Label userCitySunriseTime;
     @FXML
-    private LineChart<String, Number> lineChart02;
+    private Label userCitySunsetTime;
     @FXML
-    private Label chartDate02;
+    private Label userCityWeatherDescription;
+    @FXML
+    private WeatherIconView userCityWeatherIcon;
+    @FXML
+    private Label userCityMainTempreture;
+    @FXML
+    private Label userCityWindSpeed;
+    @FXML
+    private Label userCityHumidity;
+    @FXML
+    private Label userCityPressure;
 
     @FXML
-    private CategoryAxis timeAxis03;
+    private VBox travelContentVbox;
     @FXML
-    private NumberAxis tempretureAxis03;
+    private Label travelCurrentDateLabel;
+    
     @FXML
-    private LineChart<String, Number> lineChart03;
+    private Label travelCityName;
     @FXML
-    private Label chartDate03;
+    private Label travelCitySunriseTime;
+    @FXML
+    private Label travelCitySunsetTime;
+    @FXML
+    private Label travelCityWeatherDescription;
+    @FXML
+    private WeatherIconView travelCityWeatherIcon;
+    @FXML
+    private Label travelCityMainTempreture;
+    @FXML
+    private Label travelCityWindSpeed;
+    @FXML
+    private Label travelCityHumidity;
+    @FXML
+    private Label travelCityPressure;
 
     @FXML
-    private CategoryAxis timeAxis04;
-    @FXML
-    private NumberAxis tempretureAxis04;
-    @FXML
-    private LineChart<String, Number> lineChart04;
-    @FXML
-    private Label chartDate04;
+    private VBox userWeatherDataVbox;
 
     @FXML
-    private CategoryAxis timeAxis05;
-    @FXML
-    private NumberAxis tempretureAxis05;
-    @FXML
-    private LineChart<String, Number> lineChart05;
-    @FXML
-    private Label chartDate05;
-
-
-    @FXML
-    private CategoryAxis timeAxis11;
-    @FXML
-    private NumberAxis tempretureAxis11;
-    @FXML
-    private LineChart<String, Number> lineChart11;
-    @FXML
-    private Label chartDate11;
-
-    @FXML
-    private CategoryAxis timeAxis12;
-    @FXML
-    private NumberAxis tempretureAxis12;
-    @FXML
-    private LineChart<String, Number> lineChart12;
-    @FXML
-    private Label chartDate12;
-
-    @FXML
-    private CategoryAxis timeAxis13;
-    @FXML
-    private NumberAxis tempretureAxis13;
-    @FXML
-    private LineChart<String, Number> lineChart13;
-    @FXML
-    private Label chartDate13;
-
-    @FXML
-    private CategoryAxis timeAxis14;
-    @FXML
-    private NumberAxis tempretureAxis14;
-    @FXML
-    private LineChart<String, Number> lineChart14;
-    @FXML
-    private Label chartDate14;
-
-    @FXML
-    private CategoryAxis timeAxis15;
-    @FXML
-    private NumberAxis tempretureAxis15;
-    @FXML
-    private LineChart<String, Number> lineChart15;
-    @FXML
-    private Label chartDate15;
+    private VBox travelWeatherDataVbox;
 
 
     @FXML
     public void initialize() {
 
-        WeatherChart weatherChart01 = new WeatherChart(lineChart01, tempretureAxis01, timeAxis01, chartDate01);
-        WeatherChart weatherChart02 = new WeatherChart(lineChart02, tempretureAxis02, timeAxis02, chartDate02);
-        WeatherChart weatherChart03 = new WeatherChart(lineChart03, tempretureAxis03, timeAxis03, chartDate03);
-        WeatherChart weatherChart04 = new WeatherChart(lineChart04, tempretureAxis04, timeAxis04, chartDate04);
-        WeatherChart weatherChart05 = new WeatherChart(lineChart05, tempretureAxis05, timeAxis05, chartDate05);
+        try {
+            
+            initializeMainDataOfForecast();
+            initializeFiveDaysForecast();
+        } catch (Exception e) {
+            e.getMessage();
+            e.printStackTrace();
+        }
+    }
 
-        weatherChart01.setInitialChart();
-        weatherChart02.setInitialChart();
-        weatherChart03.setInitialChart();
-        weatherChart04.setInitialChart();
-        weatherChart05.setInitialChart();
+    private void initializeMainDataOfForecast() throws APIException {
+        
+        userCurrentDateLabel.setText(MyDate.getCurrentStrDate());
+        
+        ForecastControls userCityForecastControls= new ForecastControls(userContentVbox, userCityName,
+                userCitySunriseTime,
+                userCitySunsetTime, userCityWeatherDescription, userCityWeatherIcon, userCityMainTempreture,
+                userCityWindSpeed, userCityHumidity, userCityPressure);
+        userCityForecastControls.setForecastControls("Warszawa");
 
-        WeatherChart weatherChart11 = new WeatherChart(lineChart11, tempretureAxis11, timeAxis11, chartDate11);
-        WeatherChart weatherChart12 = new WeatherChart(lineChart12, tempretureAxis12, timeAxis12, chartDate12);
-        WeatherChart weatherChart13 = new WeatherChart(lineChart13, tempretureAxis13, timeAxis13, chartDate13);
-        WeatherChart weatherChart14 = new WeatherChart(lineChart14, tempretureAxis14, timeAxis14, chartDate14);
-        WeatherChart weatherChart15 = new WeatherChart(lineChart15, tempretureAxis15, timeAxis15, chartDate15);
+        travelCurrentDateLabel.setText(MyDate.getCurrentStrDate());
 
-        weatherChart11.setInitialChart();
-        weatherChart12.setInitialChart();
-        weatherChart13.setInitialChart();
-        weatherChart14.setInitialChart();
-        weatherChart15.setInitialChart();
+        ForecastControls travelCityForecastControls= new ForecastControls(travelContentVbox, travelCityName,
+                travelCitySunriseTime,
+                travelCitySunsetTime, travelCityWeatherDescription, travelCityWeatherIcon, travelCityMainTempreture,
+                travelCityWindSpeed, travelCityHumidity, travelCityPressure);
+        travelCityForecastControls.setForecastControls("London");
+
+    }
+
+    private void initializeFiveDaysForecast() throws APIException {
+
+        FiveDaysForecastData userFiveDaysForecast = new FiveDaysForecastData("Skierbieszów");
+        userFiveDaysForecast.setFiveDaysForecast(userWeatherDataVbox);
+
+        FiveDaysForecastData travelFiveDaysForecast = new FiveDaysForecastData("London");
+        travelFiveDaysForecast.setFiveDaysForecast(travelWeatherDataVbox);
 
     }
 

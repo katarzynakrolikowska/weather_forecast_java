@@ -11,11 +11,12 @@ public class Main extends Application {
 
 
 
+
     @Override
     public void start(Stage primaryStage) throws Exception{
 
         try {
-            Parent grid = FXMLLoader.load(getClass().getResource("sample.fxml"));
+            Parent grid = FXMLLoader.load(getClass().getResource("view.fxml"));
 
             primaryStage.setTitle("weatherForTravel");
             Scene scene = new Scene(grid, 900, 575);

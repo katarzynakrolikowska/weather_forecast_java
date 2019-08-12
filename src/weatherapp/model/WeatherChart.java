@@ -1,7 +1,6 @@
 package weatherapp.model;
 
-import de.jensd.fx.glyphs.weathericons.WeatherIcon;
-import de.jensd.fx.glyphs.weathericons.utils.WeatherIconFactory;
+import de.jensd.fx.glyphs.weathericons.WeatherIconView;
 import javafx.beans.binding.ObjectExpression;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,62 +15,47 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 public class WeatherChart {
 
     private LineChart<String, Number> lineChart;
     private NumberAxis numberAxis;
     private CategoryAxis categoryAxis;
-    private Label chartLabel;
 
-    public WeatherChart(LineChart<String, Number> lineChart, NumberAxis numberAxis, CategoryAxis categoryAxis,
-                        Label chartLabel) {
+    public WeatherChart(LineChart<String, Number> lineChart, NumberAxis numberAxis, CategoryAxis categoryAxis) {
 
         this.lineChart = lineChart;
         this.numberAxis = numberAxis;
         this.categoryAxis = categoryAxis;
-        this.chartLabel = chartLabel;
+
     }
 
-    public void setInitialChart() {
+    public void setChart(List<ChartData> list) {
 
-        chartLabel.setText(MyDate.getStringDate());
-        lineChart.getData().addAll(new XYChart.Series<>(createData()), new XYChart.Series<>(createDataIcon()));
+        lineChart.getData().addAll(new XYChart.Series<>(createData(list)), new XYChart.Series<>(createDataIcon(list)));
+        lineChart.setMinHeight(180);
+        lineChart.setLegendVisible(false);
+        lineChart.getStyleClass().add("bg-chart");
         categoryAxis.setAutoRanging(true);
         categoryAxis.setTickLabelsVisible(true);
         categoryAxis.setTickMarkVisible(true);
 
         numberAxis.setAutoRanging(false);
 
-        numberAxis.setUpperBound(35);
-        numberAxis.setLowerBound(0);
+        numberAxis.setUpperBound(getUpperBoundOfChart(list) + 10);
+        numberAxis.setLowerBound(getLowerBoundOfChart(list) - 10);
     }
 
-    private ObservableList<XYChart.Data<String, Number>> createData() {
+    private ObservableList<XYChart.Data<String, Number>> createData(List<ChartData> chartDataList) {
         var list = FXCollections.<XYChart.Data<String, Number>>observableArrayList();
-        Map<String, Number> maptest = getMapTest();
-        for (Map.Entry<String, Number> entry : maptest.entrySet()) {
-            XYChart.Data<String, Number> data = new XYChart.Data<String, Number>(entry.getKey(), entry.getValue());
+        for (ChartData chartData : chartDataList) {
+            XYChart.Data<String, Number> data = new XYChart.Data<String, Number>(chartData.getHour(), chartData.getTempreture());
 
             data.setNode(createDataNode(data.YValueProperty()));
             list.add(data);
         }
         return list;
-    }
-
-    private static Map<String, Number> getMapTest() {
-        Map<String, Number> mapTest = new TreeMap<>();
-        mapTest.put("5:00", 11);
-        mapTest.put("8:00", 18);
-        mapTest.put("11:00", 24);
-        mapTest.put("14:00", 28);
-        mapTest.put("17:00", 27);
-        mapTest.put("20:00", 17);
-        mapTest.put("23:00", 13);
-
-        return mapTest;
     }
 
     private static Node createDataNode(ObjectExpression<Number> value) {
@@ -88,25 +72,56 @@ public class WeatherChart {
         return pane;
     }
 
-    private ObservableList<XYChart.Data<String, Number>> createDataIcon() {
+    private ObservableList<XYChart.Data<String, Number>> createDataIcon(List<ChartData> chartDataList) {
         var list = FXCollections.<XYChart.Data<String, Number>>observableArrayList();
-        Map<String, Number> maptest = getMapTest();
-        for (Map.Entry<String, Number> entry : maptest.entrySet()) {
-            XYChart.Data<String, Number> data = new XYChart.Data<String, Number>(entry.getKey(), 5);
+        double valueOfYAxis = getLowerBoundOfChart(chartDataList) - 5;
+        for (ChartData chartData : chartDataList) {
+            XYChart.Data<String, Number> data = new XYChart.Data<String, Number>(chartData.getHour(), valueOfYAxis);
 
-            data.setNode(createDataNodeIcon());
+            data.setNode(createDataNodeIcon(chartData.getIconCode()));
             list.add(data);
         }
         return list;
     }
 
-    private static Node createDataNodeIcon() {
+    private static Node createDataNodeIcon(String iconCode) {
 
         VBox vbox = new VBox(10);
+        ForecastData forecastData = new ForecastData();
+        WeatherIconView view = new WeatherIconView();
+        view.setGlyphName(forecastData.getWeatherGlyphName(iconCode));
+        view.setGlyphSize(16);
 
-        Text label2 = WeatherIconFactory.get().createIcon(WeatherIcon.DAY_RAIN, "15");
-        vbox.getChildren().add(label2);
+        Text text = view;
+        vbox.getChildren().add(text);
 
         return vbox;
+    }
+
+    private Integer getUpperBoundOfChart(List<ChartData> list) {
+
+        List<Integer> tempretureList = getTempretureList(list);
+        int max = Collections.max(tempretureList) / 5;
+
+        return max * 5;
+    }
+
+    private List<Integer> getTempretureList(List<ChartData> list) {
+
+        List<Integer> tempretureList = new ArrayList<>();
+        for (ChartData chartData : list) {
+
+            tempretureList.add(chartData.getTempreture());
+        }
+
+        return tempretureList;
+    }
+
+    private Integer getLowerBoundOfChart(List<ChartData> list) {
+
+        List<Integer> tempretureList = getTempretureList(list);
+        int min = Collections.min(tempretureList) / 5;
+
+        return min * 5;
     }
 }

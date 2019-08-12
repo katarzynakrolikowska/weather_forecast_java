@@ -13,7 +13,11 @@
 
 .bg-white {
     -fx-background-color: rgba(255, 255, 255, 0.3);
-    -fx-background-radius: 10;
+}
+
+.bg-chart {
+	-fx-background-color: rgba(255, 255, 255, 0.3);
+	-fx-background-radius: 10;
 }
 
 .bg-darkblue {
@@ -66,6 +70,13 @@
 	-fx-font-size: 16;
 }
 
+.text-18 {
+	-fx-font-size: 18;
+}
+
+.text-22 {
+	-fx-font-size: 22;
+}
 
 .tempreture-description {
 	-fx-font-size: 20;
@@ -78,7 +89,7 @@
 }
 
 .localization-font {
-	-fx-font-size: 23;
+	-fx-font-size: 28;
 	-fx-fill: rgb(225, 228, 203);
 }
 
@@ -108,6 +119,8 @@
 	-fx-stroke: transparent;
 }
 
+.scroll-pane > .viewport,
+.scroll-pane,
 .default-color0.chart-line-symbol,
 .default-color1.chart-line-symbol { 
   	-fx-background-color: transparent;
