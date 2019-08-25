@@ -1,4 +1,4 @@
-package main.weatherapp.model;
+package main.weatherapp.model.owm;
 
 import net.aksingh.owmjapis.api.APIException;
 import net.aksingh.owmjapis.core.OWM;

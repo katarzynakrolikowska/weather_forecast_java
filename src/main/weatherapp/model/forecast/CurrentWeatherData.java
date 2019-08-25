@@ -1,12 +1,15 @@
-package  main.weatherapp.model;
+package main.weatherapp.model.forecast;
 
+import main.weatherapp.model.constant.WeatherAppConst;
+import main.weatherapp.model.formatter.DataFormatter;
+import main.weatherapp.model.time.*;
 import net.aksingh.owmjapis.api.APIException;
 import net.aksingh.owmjapis.model.CurrentWeather;
 import java.util.Date;
 import java.util.TimeZone;
 
 
-public class CurrentWeatherData extends WeatherData {
+public class CurrentWeatherData extends WeatherForecastData {
 
     private CurrentWeather currentWeather;
 

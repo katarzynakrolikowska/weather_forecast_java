@@ -1,4 +1,4 @@
-package  main.weatherapp.model;
+package main.weatherapp.model.forecast;
 
 import de.jensd.fx.glyphs.weathericons.WeatherIconView;
 import javafx.scene.control.Label;
@@ -37,7 +37,7 @@ public class CurrentWeatherControls {
         this.cityPressure = cityPressure;
     }
 
-    public void setCurrentWeatherControlsForCity(Integer cityId) throws APIException {
+    public void setControlsOfCurrentWeatherForCity(Integer cityId) throws APIException {
 
         CurrentWeatherData currentWeatherData = new CurrentWeatherData(cityId);
         contentVbox.getStyleClass().clear();

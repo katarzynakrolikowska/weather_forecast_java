@@ -1,4 +1,4 @@
-package  main.weatherapp.model;
+package main.weatherapp.model.forecast;
 
 public class LinechartData {
 

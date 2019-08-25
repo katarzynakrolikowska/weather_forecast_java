@@ -17,7 +17,7 @@ public class Main extends Application {
             Parent grid = FXMLLoader.load(getClass().getResource("view/mainView.fxml"));
 
             primaryStage.setTitle("DoubleWeatherApp");
-            Image icon = new Image(getClass().getResourceAsStream("icon/circle_cloud.png"));
+            Image icon = new Image(getClass().getResourceAsStream("view/icon/circle_cloud.png"));
             primaryStage.getIcons().add(icon);
             Scene scene = new Scene(grid, 900, 575);
 

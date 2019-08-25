@@ -1,4 +1,4 @@
-package  main.weatherapp.model;
+package main.weatherapp.model.time;
 
 import com.github.bfsmith.geotimezone.TimeZoneLookup;
 import com.github.bfsmith.geotimezone.TimeZoneResult;

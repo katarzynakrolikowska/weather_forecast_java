@@ -1,15 +1,17 @@
-package main.weatherapp.model;
+package main.weatherapp.model.forecast;
 
+
+import main.weatherapp.model.owm.OWMApp;
 
 import java.util.TimeZone;
-import static main.weatherapp.model.WeatherAppConst.API_KEY;
+import static main.weatherapp.model.constant.WeatherAppConst.API_KEY;
 
-public class WeatherData {
+public class WeatherForecastData {
 
     protected OWMApp owmApp;
     protected TimeZone timeZone;
 
-    public WeatherData() {
+    public WeatherForecastData() {
 
         this.owmApp = new OWMApp(API_KEY);
     }

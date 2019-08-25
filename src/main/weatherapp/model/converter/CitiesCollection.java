@@ -1,4 +1,4 @@
-package main.weatherapp.model;
+package main.weatherapp.model.converter;
 
 import main.weatherapp.model.exception.InvalidCityNameException;
 

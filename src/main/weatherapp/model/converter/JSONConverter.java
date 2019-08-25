@@ -1,9 +1,8 @@
-package  main.weatherapp.model;
+package main.weatherapp.model.converter;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Map;

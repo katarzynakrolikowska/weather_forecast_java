@@ -1,4 +1,4 @@
-package main.weatherapp.model;
+package main.weatherapp.model.forecast;
 
 import de.jensd.fx.glyphs.weathericons.WeatherIconView;
 import javafx.beans.binding.ObjectExpression;
@@ -14,10 +14,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
-
 import java.util.*;
 
-import static main.weatherapp.model.WeatherAppConst.UNIT_OF_Y_AXIS;
+import static main.weatherapp.model.constant.WeatherAppConst.UNIT_OF_Y_AXIS;
+
 
 public class WeatherChart {
 
@@ -91,9 +91,9 @@ public class WeatherChart {
     private static Node createIconNode(String iconCode) {
 
         VBox vbox = new VBox(10);
-        WeatherData weatherData = new WeatherData();
+        WeatherForecastData weatherForecastData = new WeatherForecastData();
         WeatherIconView view = new WeatherIconView();
-        view.setGlyphName(weatherData.getWeatherGlyphName(iconCode));
+        view.setGlyphName(weatherForecastData.getWeatherGlyphName(iconCode));
         view.setGlyphSize(16);
 
         Text text = view;
