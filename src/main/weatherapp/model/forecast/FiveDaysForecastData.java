@@ -1,4 +1,4 @@
-package main.weatherapp.model;
+package main.weatherapp.model.forecast;
 
 import javafx.geometry.Insets;
 import javafx.scene.chart.CategoryAxis;
@@ -6,14 +6,18 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import main.weatherapp.model.formatter.DataFormatter;
+import main.weatherapp.model.time.*;
 import net.aksingh.owmjapis.api.APIException;
 import net.aksingh.owmjapis.model.HourlyWeatherForecast;
+import net.aksingh.owmjapis.model.param.WeatherData;
+
 import java.util.*;
 
-import static main.weatherapp.model.WeatherAppConst.*;
+import static main.weatherapp.model.constant.WeatherAppConst.*;
 
 
-public class FiveDaysForecastData extends WeatherData {
+public class FiveDaysForecastData extends WeatherForecastData {
 
     private HourlyWeatherForecast hourlyWeatherForecast;
     private List<LinechartData> list;
@@ -33,7 +37,7 @@ public class FiveDaysForecastData extends WeatherData {
         String previousDayName = "";
         byte index = 1;
 
-        for (net.aksingh.owmjapis.model.param.WeatherData data: hourlyWeatherForecast.getDataList()) {
+        for (WeatherData data: hourlyWeatherForecast.getDataList()) {
 
             String time = getTime(data);
             int tempreture = getMainTempreture(data);
@@ -59,24 +63,24 @@ public class FiveDaysForecastData extends WeatherData {
         }
     }
 
-    private String getTime(net.aksingh.owmjapis.model.param.WeatherData data) {
+    private String getTime(WeatherData data) {
 
         Date date = data.getDateTime();
         return MyDate.getHourMinute(data.getDateTime(), getTimeZoneOfTheCity()) + "\n" +  MyDate.getShortDayName(date
                 , getTimeZoneOfTheCity());
     }
 
-    private Integer getMainTempreture(net.aksingh.owmjapis.model.param.WeatherData data) {
+    private Integer getMainTempreture(WeatherData data) {
 
         return  DataFormatter.getRoundedNumber(data.getMainData().getTemp());
     }
 
-    private String getIconCode(net.aksingh.owmjapis.model.param.WeatherData data) {
+    private String getIconCode(WeatherData data) {
 
         return data.getWeatherList().get(0).getIconCode();
     }
 
-    private String getDayName(net.aksingh.owmjapis.model.param.WeatherData data) {
+    private String getDayName(WeatherData data) {
 
         Date date = data.getDateTime();
         return MyDate.getDayName(date, getTimeZoneOfTheCity());

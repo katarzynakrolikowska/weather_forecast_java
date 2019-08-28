@@ -1,4 +1,4 @@
-package  main.weatherapp.model;
+package main.weatherapp.model.control;
 
 import javafx.scene.control.TextField;
 import org.controlsfx.control.textfield.TextFields;

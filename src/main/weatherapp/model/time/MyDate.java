@@ -1,4 +1,4 @@
-package  main.weatherapp.model;
+package main.weatherapp.model.time;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

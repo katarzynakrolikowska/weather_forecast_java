@@ -7,9 +7,14 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import main.weatherapp.model.control.CustomTextField;
+import main.weatherapp.model.converter.*;
 import main.weatherapp.model.exception.InvalidCityNameException;
+import main.weatherapp.model.constant.WeatherAppConst;
+import main.weatherapp.model.forecast.CurrentWeatherControls;
+import main.weatherapp.model.forecast.FiveDaysForecastControls;
+import main.weatherapp.model.forecast.WeatherForecastControls;
 import net.aksingh.owmjapis.api.APIException;
-import main.weatherapp.model.*;
 
 
 import java.util.*;
@@ -89,6 +94,8 @@ public class Controller {
 
     private CurrentWeatherControls userCityCurrentWeatherControls;
     private CurrentWeatherControls travelCityCurrentWeatherControls;
+    private FiveDaysForecastControls userCityFiveDaysForecastControls;
+    private FiveDaysForecastControls travelCityFiveDaysForecastControls;
     private Map<String, Integer> citiesMap;
 
 
@@ -102,6 +109,7 @@ public class Controller {
             final Integer initialTravelCityId = CitiesCollection.getCityId(WeatherAppConst.INITIAL_TRAVEL_CITY, citiesMap);
 
             setCurrentWeatherControls();
+            setFiveDaysForecastControls();
             initializeForecastData(initialUserCityId, initialTravelCityId);
             setAutoCompleteTextFields();
         } catch (Exception e) {
@@ -130,6 +138,14 @@ public class Controller {
                 travelCityWindSpeed, travelCityHumidity, travelCityPressure);
     }
 
+    private void setFiveDaysForecastControls() {
+
+        userCityFiveDaysForecastControls = new FiveDaysForecastControls(userChartVbox, userWarningLabel,
+                userScrollPane);
+        travelCityFiveDaysForecastControls = new FiveDaysForecastControls(travelChartVbox, travelWarningLabel,
+                travelScrollPane);
+    }
+
     private void initializeForecastData(Integer userCityId, Integer travelCityId) throws APIException {
 
         setControlsOfWeatherForecastForUserCity(userCityId);
@@ -138,15 +154,13 @@ public class Controller {
 
     private void setControlsOfWeatherForecastForUserCity(Integer cityId) throws APIException {
 
-       WeatherForecastControls controls = new WeatherForecastControls(userCityCurrentWeatherControls, userChartVbox,
-               userWarningLabel, userScrollPane);
+       WeatherForecastControls controls = new WeatherForecastControls(userCityCurrentWeatherControls, userCityFiveDaysForecastControls);
        controls.setControlsOfWeatherForecastForCity(cityId);
     }
 
     private void setControlsOfWeatherForecastForTravelCity(Integer cityId) throws APIException {
 
-        WeatherForecastControls controls = new WeatherForecastControls(travelCityCurrentWeatherControls, travelChartVbox,
-                travelWarningLabel, travelScrollPane);
+        WeatherForecastControls controls = new WeatherForecastControls(travelCityCurrentWeatherControls, travelCityFiveDaysForecastControls);
         controls.setControlsOfWeatherForecastForCity(cityId);
     }
 
@@ -158,6 +172,7 @@ public class Controller {
 
     @FXML
     private void changeUserCity() {
+
         try {
             String city = userTextFieldSearch.getText();
             setControlsOfWeatherForecastForUserCity(CitiesCollection.getCityId(city, citiesMap));
