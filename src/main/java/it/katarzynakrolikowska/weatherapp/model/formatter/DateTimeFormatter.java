@@ -1,11 +1,11 @@
-package it.katarzynakrolikowska.weatherapp.model.time;
+package it.katarzynakrolikowska.weatherapp.model.formatter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class MyDate {
+public class DateTimeFormatter {
 
     public static String getHourMinute(Date date, TimeZone timeZone) {
 

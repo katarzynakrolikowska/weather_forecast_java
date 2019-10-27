@@ -44,8 +44,8 @@ public class WeatherChart {
         categoryAxis.setTickMarkVisible(true);
 
         numberAxis.setAutoRanging(false);
-        numberAxis.setUpperBound(getUpperBoundOfChart(list) + 10);
-        numberAxis.setLowerBound(getLowerBoundOfChart(list) - 10);
+        numberAxis.setUpperBound(getUpperBoundOfChart(list) + UNIT_OF_Y_AXIS * 2);
+        numberAxis.setLowerBound(getLowerBoundOfChart(list) - UNIT_OF_Y_AXIS * 2);
     }
 
     private ObservableList<XYChart.Data<String, Number>> createTempretureData(List<LinechartData> linechartDataList) {
@@ -78,7 +78,7 @@ public class WeatherChart {
     private ObservableList<XYChart.Data<String, Number>> createDataIcon(List<LinechartData> linechartDataList) {
 
         var list = FXCollections.<XYChart.Data<String, Number>>observableArrayList();
-        double valueOfYAxis = getLowerBoundOfChart(linechartDataList) - 5;
+        double valueOfYAxis = getLowerBoundOfChart(linechartDataList) - UNIT_OF_Y_AXIS;
         for (LinechartData linechartData : linechartDataList) {
             XYChart.Data<String, Number> data = new XYChart.Data<String, Number>(linechartData.getHour(), valueOfYAxis);
 
@@ -105,9 +105,14 @@ public class WeatherChart {
     private Integer getUpperBoundOfChart(List<LinechartData> list) {
 
         List<Integer> tempretureList = getTempretureList(list);
-        int max = Collections.max(tempretureList) / UNIT_OF_Y_AXIS;
+        int max = Collections.max(tempretureList);
 
-        return max * UNIT_OF_Y_AXIS;
+        return getTheClosestDownIntDivisibleByUnitOfYAxis(max);
+    }
+
+    private int getTheClosestDownIntDivisibleByUnitOfYAxis(int number) {
+
+            return (number / UNIT_OF_Y_AXIS) * UNIT_OF_Y_AXIS;
     }
 
     private List<Integer> getTempretureList(List<LinechartData> list) {
@@ -124,8 +129,8 @@ public class WeatherChart {
     private Integer getLowerBoundOfChart(List<LinechartData> list) {
 
         List<Integer> tempretureList = getTempretureList(list);
-        int min = Collections.min(tempretureList) / UNIT_OF_Y_AXIS;
+        int min = Collections.min(tempretureList);
 
-        return min * UNIT_OF_Y_AXIS;
+        return getTheClosestDownIntDivisibleByUnitOfYAxis(min);
     }
 }

@@ -1,9 +1,12 @@
 package it.katarzynakrolikowska.weatherapp.model.forecast;
 
+import it.katarzynakrolikowska.weatherapp.model.owm.OWMService;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import net.aksingh.owmjapis.api.APIException;
+
+import static it.katarzynakrolikowska.weatherapp.model.constant.WeatherAppConst.API_KEY;
 
 public class FiveDaysForecastControls {
 
@@ -20,8 +23,9 @@ public class FiveDaysForecastControls {
 
     public void setControlsOfFiveDaysForecastForCity(Integer cityId) throws APIException {
 
-        FiveDaysForecastData fiveDaysForecasData = new FiveDaysForecastData(cityId);
-        fiveDaysForecasData.setFiveDaysForecast(chartVbox);
+        OWMService owmService = new OWMService(API_KEY);
+        FiveDaysForecastData fiveDaysForecastData = new FiveDaysForecastData(owmService.getHourlyWeatherForecast(cityId));
+        fiveDaysForecastData.setFiveDaysForecast(chartVbox);
         warningLabel.setText("");
         scrollPane.setVvalue(0.0);
     }

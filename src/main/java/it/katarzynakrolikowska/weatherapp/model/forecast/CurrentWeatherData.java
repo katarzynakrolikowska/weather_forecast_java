@@ -2,8 +2,8 @@ package it.katarzynakrolikowska.weatherapp.model.forecast;
 
 import it.katarzynakrolikowska.weatherapp.model.constant.WeatherAppConst;
 import it.katarzynakrolikowska.weatherapp.model.formatter.DataFormatter;
+import it.katarzynakrolikowska.weatherapp.model.formatter.DateTimeFormatter;
 import it.katarzynakrolikowska.weatherapp.model.time.*;
-import net.aksingh.owmjapis.api.APIException;
 import net.aksingh.owmjapis.model.CurrentWeather;
 import java.util.Date;
 import java.util.TimeZone;
@@ -13,14 +13,13 @@ public class CurrentWeatherData extends WeatherForecastData {
 
     private CurrentWeather currentWeather;
 
-    public CurrentWeatherData(Integer cityId) throws APIException {
+    public CurrentWeatherData(CurrentWeather currentWeather) {
 
-        super();
-        this.currentWeather = owmApp.getCurrentWeather(cityId);
+        this.currentWeather = currentWeather;
         this.timeZone = getTimeZoneOfTheCity();
     }
 
-    public String getBackgroundClass() {
+    public String getBackgroundCSSClass() {
 
         switch (getCurrentWeatherIconCode()) {
             case "01d":
@@ -57,18 +56,20 @@ public class CurrentWeatherData extends WeatherForecastData {
 
         Date date = currentWeather.getDateTime();
 
-        return MyDate.getDayMonthYear(date, getTimeZoneOfTheCity());
+        return DateTimeFormatter.getDayMonthYear(date, getTimeZoneOfTheCity());
     }
 
-    public String getTimeOffsetText() {
+    public String getStrTimeOffset() {
 
         int offset = getTimeOffset();
         String offsetStr = String.format("%02d:", Math.abs(offset));
 
         if(offset > 0) {
             return " (UTC +" + offsetStr + "00)";
-        } else {
+        } else if (offset < 0){
             return " (UTC -" + offsetStr + "00)";
+        } else {
+            return " (UTC " + offsetStr + "00)";
         }
     }
 
@@ -76,7 +77,7 @@ public class CurrentWeatherData extends WeatherForecastData {
 
         TimeZone timeZone = getTimeZoneOfTheCity();
 
-        int offset =  timeZone.getOffset(MyDate.getCurrentDate()) / WeatherAppConst.MILLISECONDS_IN_ONE_HOUR;
+        int offset =  timeZone.getOffset(DateTimeFormatter.getCurrentDate()) / WeatherAppConst.MILLISECONDS_IN_ONE_HOUR;
         return offset;
     }
 
@@ -88,19 +89,19 @@ public class CurrentWeatherData extends WeatherForecastData {
     public String getSunriseTime() {
 
         Date date = currentWeather.getSystemData().getSunriseDateTime();
-        return MyDate.getHourMinute(date, getTimeZoneOfTheCity());
+        return DateTimeFormatter.getHourMinute(date, getTimeZoneOfTheCity());
     }
 
     public String getSunsetTime() {
 
         Date date = currentWeather.getSystemData().getSunsetDateTime();
-        return MyDate.getHourMinute(date, getTimeZoneOfTheCity());
+        return DateTimeFormatter.getHourMinute(date, getTimeZoneOfTheCity());
     }
 
     public String getWeatherDescription() {
 
         String desc = currentWeather.getWeatherList().get(0).getMoreInfo();
-        return DataFormatter.getUppercaseFirstLetter(desc);
+        return DataFormatter.getWordUppercaseFirstLetter(desc);
     }
 
     public String getCurrentWeatherGlyphName() {
@@ -116,7 +117,7 @@ public class CurrentWeatherData extends WeatherForecastData {
     public String getMainTempreture() {
 
         double temp = currentWeather.getMainData().getTemp();
-        return DataFormatter.getRoundedNumber(temp) + "°C";
+        return DataFormatter.getRoundedNumberToInteger(temp) + "°C";
     }
 
     public String getWindSpeed() {
@@ -128,18 +129,19 @@ public class CurrentWeatherData extends WeatherForecastData {
     public String getHumidity() {
 
         double humidity = currentWeather.getMainData().getHumidity();
-        return DataFormatter.getRoundedNumber(humidity) + "%";
+        return DataFormatter.getRoundedNumberToInteger(humidity) + "%";
     }
 
     public String getPressure() {
 
         double pressure = currentWeather.getMainData().getPressure();
-        return DataFormatter.getRoundedNumber(pressure) + " hPa";
+        return DataFormatter.getRoundedNumberToInteger(pressure) + " hPa";
     }
 
     private TimeZone getTimeZoneOfTheCity() {
 
-        return CityTimeZone.getTimeZoneOfTheCity(getLatitude(), getLongitude());
+        CityTimeZone cityTimeZone = new CityTimeZone();
+        return cityTimeZone.getTimeZoneOfTheCity(getLatitude(), getLongitude());
     }
 
     private double getLatitude() {
