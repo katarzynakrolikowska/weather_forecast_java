@@ -1,6 +1,7 @@
 package it.katarzynakrolikowska.weatherapp.controller;
 
 import de.jensd.fx.glyphs.weathericons.WeatherIconView;
+import it.katarzynakrolikowska.weatherapp.model.exception.InvalidCityNameException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -102,7 +103,8 @@ public class Controller {
     public void initialize() {
 
         try {
-            citiesMap = JSONConverter.getCitiesMapFromJSON(WeatherAppConst.PATH_OF_CITIES_LIST_FILE);
+            JSONConverter jsonConverter = new JSONConverter();
+            citiesMap = jsonConverter.getCitiesMapFromJSON(WeatherAppConst.JSON_FILE_WITH_CITIES);
 
             final Integer initialUserCityId = CitiesCollection.getCityId(WeatherAppConst.INITIAL_USER_CITY, citiesMap);
             final Integer initialTravelCityId = CitiesCollection.getCityId(WeatherAppConst.INITIAL_TRAVEL_CITY, citiesMap);
@@ -113,7 +115,7 @@ public class Controller {
             setAutoCompleteTextFields();
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            showErrorMessage();
+            e.printStackTrace();
         }
     }
 
@@ -170,16 +172,17 @@ public class Controller {
     }
 
     @FXML
-    private void changeUserCity() {
+    public void changeUserCity() {
 
         try {
             String city = userTextFieldSearch.getText();
             setControlsOfWeatherForecastForUserCity(CitiesCollection.getCityId(city, citiesMap));
-        } catch (APIException e) {
+        } catch (APIException | InvalidCityNameException e) {
             userWarningLabel.setText("Wybierz miejscowość z listy!");
         } catch (Exception e) {
             System.out.println(e.getMessage());
             showErrorMessage();
+            e.printStackTrace();
         }
     }
 
@@ -189,7 +192,7 @@ public class Controller {
         try {
             String city = travelTextFieldSearch.getText();
             setControlsOfWeatherForecastForTravelCity(CitiesCollection.getCityId(city, citiesMap));
-        } catch (APIException e) {
+        } catch (APIException | InvalidCityNameException e) {
            travelWarningLabel.setText("Wybierz miejscowość z listy!");
         } catch (Exception e) {
             System.out.println(e.getMessage());

@@ -1,20 +1,11 @@
 package it.katarzynakrolikowska.weatherapp.model.forecast;
 
-
-import it.katarzynakrolikowska.weatherapp.model.owm.OWMApp;
-
 import java.util.TimeZone;
-import static it.katarzynakrolikowska.weatherapp.model.constant.WeatherAppConst.API_KEY;
+
 
 public class WeatherForecastData {
 
-    protected OWMApp owmApp;
     protected TimeZone timeZone;
-
-    public WeatherForecastData() {
-
-        this.owmApp = new OWMApp(API_KEY);
-    }
 
     protected String getWeatherGlyphName(String iconCode) {
 

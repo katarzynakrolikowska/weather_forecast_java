@@ -1,92 +1,70 @@
 package it.katarzynakrolikowska.weatherapp.model.forecast;
 
+import it.katarzynakrolikowska.weatherapp.model.formatter.*;
+import it.katarzynakrolikowska.weatherapp.model.time.CityTimeZone;
 import javafx.geometry.Insets;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import it.katarzynakrolikowska.weatherapp.model.formatter.DataFormatter;
-import it.katarzynakrolikowska.weatherapp.model.time.*;
-import net.aksingh.owmjapis.api.APIException;
 import net.aksingh.owmjapis.model.HourlyWeatherForecast;
 import net.aksingh.owmjapis.model.param.WeatherData;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TimeZone;
 
-import static it.katarzynakrolikowska.weatherapp.model.constant.WeatherAppConst.*;
+import static it.katarzynakrolikowska.weatherapp.model.constant.WeatherAppConst.WEATHER_DATA_PER_DAY;
 
 
 public class FiveDaysForecastData extends WeatherForecastData {
 
     private HourlyWeatherForecast hourlyWeatherForecast;
-    private List<LinechartData> list;
+    private List<LinechartData> listOfLinechartData;
 
-    public FiveDaysForecastData(Integer cityId) throws APIException {
+    public FiveDaysForecastData(HourlyWeatherForecast hourlyWeatherForecast) {
 
-        super();
-        hourlyWeatherForecast = owmApp.getHourlyWeatherForecast(cityId);
-        list = new ArrayList<>();
+        this.hourlyWeatherForecast = hourlyWeatherForecast;
+        listOfLinechartData = new ArrayList<>();
     }
 
     public void setFiveDaysForecast(VBox weatherChartVbox) {
 
         weatherChartVbox.getChildren().clear();
 
-        String days = "";
+        String chartTitle = "";
         String previousDayName = "";
         byte index = 1;
 
         for (WeatherData data: hourlyWeatherForecast.getDataList()) {
 
-            String time = getTime(data);
-            int tempreture = getMainTempreture(data);
-            String iconCode = getIconCode(data);
-            String dayName = getDayName(data);
+            WeatherDataService weatherDataService = new WeatherDataService(data, getTimeZoneOfTheCity());
+            String time = weatherDataService.getTime();
+            int tempreture = weatherDataService.getMainTempreture();
+            String iconCode = weatherDataService.getIconCode();
+            String dayName = weatherDataService.getDayName();
 
             if (!dayName.equals(previousDayName)) {
-                days += DataFormatter.getUppercaseFirstLetter(dayName) + "/";
+                chartTitle += DataFormatter.getWordUppercaseFirstLetter(dayName) + "/";
             }
 
             previousDayName = dayName;
 
             LinechartData linechartData = new LinechartData(time, tempreture, iconCode);
-            list.add(linechartData);
+            listOfLinechartData.add(linechartData);
 
-            if (index % AMOUNT_OF_X_AXIS_POINTS == 0) {
-                setWeatherChart(weatherChartVbox, DataFormatter.getStrWithoutLastChar(days));
-                days = "";
+            if (index % WEATHER_DATA_PER_DAY == 0) {
+                buildWeatherChart(weatherChartVbox, DataFormatter.getStrWithoutLastChar(chartTitle));
+                chartTitle = "";
                 previousDayName = "";
-                list.clear();
+                listOfLinechartData.clear();
             }
             index ++;
         }
     }
 
-    private String getTime(WeatherData data) {
-
-        Date date = data.getDateTime();
-        return MyDate.getHourMinute(data.getDateTime(), getTimeZoneOfTheCity()) + "\n" +  MyDate.getShortDayName(date
-                , getTimeZoneOfTheCity());
-    }
-
-    private Integer getMainTempreture(WeatherData data) {
-
-        return  DataFormatter.getRoundedNumber(data.getMainData().getTemp());
-    }
-
-    private String getIconCode(WeatherData data) {
-
-        return data.getWeatherList().get(0).getIconCode();
-    }
-
-    private String getDayName(WeatherData data) {
-
-        Date date = data.getDateTime();
-        return MyDate.getDayName(date, getTimeZoneOfTheCity());
-    }
-
-    private void setWeatherChart(VBox weatherDataVbox, String days) {
+    private void buildWeatherChart(VBox weatherDataVbox, String days) {
 
         Label label = new Label(days);
         label.setPadding(new Insets(30,0,0,0));
@@ -97,14 +75,15 @@ public class FiveDaysForecastData extends WeatherForecastData {
         LineChart<String, Number> lineChart = new LineChart<String, Number>(xAxis, yAxis);
 
         WeatherChart weatherChart = new WeatherChart(lineChart, yAxis, xAxis);
-        weatherChart.setChart(list);
+        weatherChart.setChart(listOfLinechartData);
 
         weatherDataVbox.getChildren().addAll(label, lineChart);
     }
 
     private TimeZone getTimeZoneOfTheCity() {
 
-        return CityTimeZone.getTimeZoneOfTheCity(getLatitude(), getLongitude());
+        CityTimeZone cityTimeZone = new CityTimeZone();
+        return cityTimeZone.getTimeZoneOfTheCity(getLatitude(), getLongitude());
     }
 
     private double getLatitude() {
@@ -116,4 +95,6 @@ public class FiveDaysForecastData extends WeatherForecastData {
 
         return hourlyWeatherForecast.getCityData().getCoordData().getLongitude();
     }
+
+
 }
