@@ -1,10 +1,8 @@
 package it.katarzynakrolikowska.weatherapp.model.forecast;
 
-import it.katarzynakrolikowska.weatherapp.settings.SystemProperties;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,18 +14,13 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class WeatherChartTest {
+
+class WeatherChartTest extends TestHeadlessMode {
 
     private CategoryAxis categoryAxis;
     private NumberAxis numberAxis;
     private LineChart<String, Number> lineChart;
     private WeatherChart weatherChart;
-
-
-    @BeforeAll
-    public static void setUpProperties() throws Exception {
-        SystemProperties.setUpHeadlessProperties();
-    }
 
     @BeforeEach
     void setUp() {

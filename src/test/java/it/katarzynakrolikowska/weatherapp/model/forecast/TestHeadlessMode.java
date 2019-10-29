@@ -1,11 +1,17 @@
-package it.katarzynakrolikowska.weatherapp.settings;
+package it.katarzynakrolikowska.weatherapp.model.forecast;
+
+import org.junit.jupiter.api.BeforeAll;
 
 import static org.testfx.api.FxToolkit.registerPrimaryStage;
 
-public class SystemProperties {
+public class TestHeadlessMode {
 
-    public static void setUpHeadlessProperties() throws Exception {
-        if (Boolean.getBoolean("headless")) {
+    private static boolean isHeadless = false;
+
+    @BeforeAll
+    public static void setUpHeadlessMode() throws Exception {
+
+        if (isHeadless) {
             System.setProperty("testfx.robot", "glass");
             System.setProperty("testfx.headless", "true");
             System.setProperty("prism.order", "sw");
