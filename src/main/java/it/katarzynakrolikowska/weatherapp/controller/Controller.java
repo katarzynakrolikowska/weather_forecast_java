@@ -1,20 +1,21 @@
 package it.katarzynakrolikowska.weatherapp.controller;
 
 import de.jensd.fx.glyphs.weathericons.WeatherIconView;
+import it.katarzynakrolikowska.weatherapp.model.constant.WeatherAppConst;
+import it.katarzynakrolikowska.weatherapp.model.control.CustomTextField;
+import it.katarzynakrolikowska.weatherapp.model.converter.CitiesCollection;
+import it.katarzynakrolikowska.weatherapp.model.converter.JSONConverter;
 import it.katarzynakrolikowska.weatherapp.model.exception.InvalidCityNameException;
+import it.katarzynakrolikowska.weatherapp.model.forecast.CurrentWeatherControls;
+import it.katarzynakrolikowska.weatherapp.model.forecast.FiveDaysForecastControls;
+import it.katarzynakrolikowska.weatherapp.model.forecast.WeatherForecastControls;
+import it.katarzynakrolikowska.weatherapp.model.owm.OWMRepository;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import it.katarzynakrolikowska.weatherapp.model.constant.WeatherAppConst;
-import it.katarzynakrolikowska.weatherapp.model.control.CustomTextField;
-import it.katarzynakrolikowska.weatherapp.model.converter.CitiesCollection;
-import it.katarzynakrolikowska.weatherapp.model.converter.JSONConverter;
-import it.katarzynakrolikowska.weatherapp.model.forecast.CurrentWeatherControls;
-import it.katarzynakrolikowska.weatherapp.model.forecast.FiveDaysForecastControls;
-import it.katarzynakrolikowska.weatherapp.model.forecast.WeatherForecastControls;
 import net.aksingh.owmjapis.api.APIException;
 
 import java.util.Map;
@@ -98,6 +99,11 @@ public class Controller {
     private FiveDaysForecastControls travelCityFiveDaysForecastControls;
     private Map<String, Integer> citiesMap;
 
+    private OWMRepository owmRepository;
+
+    public Controller() {
+        owmRepository = new OWMRepository(WeatherAppConst.API_KEY);
+    }
 
     @FXML
     public void initialize() {
@@ -155,14 +161,14 @@ public class Controller {
 
     private void setControlsOfWeatherForecastForUserCity(Integer cityId) throws APIException {
 
-       WeatherForecastControls controls = new WeatherForecastControls(userCityCurrentWeatherControls, userCityFiveDaysForecastControls);
-       controls.setControlsOfWeatherForecastForCity(cityId);
+        WeatherForecastControls controls = new WeatherForecastControls(userCityCurrentWeatherControls, userCityFiveDaysForecastControls);
+        controls.setControlsOfWeatherForecastForCity(owmRepository, cityId);
     }
 
     private void setControlsOfWeatherForecastForTravelCity(Integer cityId) throws APIException {
 
         WeatherForecastControls controls = new WeatherForecastControls(travelCityCurrentWeatherControls, travelCityFiveDaysForecastControls);
-        controls.setControlsOfWeatherForecastForCity(cityId);
+        controls.setControlsOfWeatherForecastForCity(owmRepository, cityId);
     }
 
     private void setAutoCompleteTextFields() {
@@ -187,7 +193,7 @@ public class Controller {
     }
 
     @FXML
-    private void changeTravelCity() {
+    public void changeTravelCity() {
 
         try {
             String city = travelTextFieldSearch.getText();

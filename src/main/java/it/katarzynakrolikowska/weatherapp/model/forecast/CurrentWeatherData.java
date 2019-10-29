@@ -3,8 +3,11 @@ package it.katarzynakrolikowska.weatherapp.model.forecast;
 import it.katarzynakrolikowska.weatherapp.model.constant.WeatherAppConst;
 import it.katarzynakrolikowska.weatherapp.model.formatter.DataFormatter;
 import it.katarzynakrolikowska.weatherapp.model.formatter.DateTimeFormatter;
-import it.katarzynakrolikowska.weatherapp.model.time.*;
+import it.katarzynakrolikowska.weatherapp.model.owm.OWMRepository;
+import it.katarzynakrolikowska.weatherapp.model.time.CityTimeZone;
+import net.aksingh.owmjapis.api.APIException;
 import net.aksingh.owmjapis.model.CurrentWeather;
+
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -13,9 +16,9 @@ public class CurrentWeatherData extends WeatherForecastData {
 
     private CurrentWeather currentWeather;
 
-    public CurrentWeatherData(CurrentWeather currentWeather) {
+    public CurrentWeatherData(OWMRepository owmRepository, Integer cityId) throws APIException {
 
-        this.currentWeather = currentWeather;
+        this.currentWeather = owmRepository.getCurrentWeather(cityId);
         this.timeZone = getTimeZoneOfTheCity();
     }
 

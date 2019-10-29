@@ -1,6 +1,7 @@
 package it.katarzynakrolikowska.weatherapp.model.forecast;
 
 import it.katarzynakrolikowska.weatherapp.model.formatter.*;
+import it.katarzynakrolikowska.weatherapp.model.owm.OWMRepository;
 import it.katarzynakrolikowska.weatherapp.model.time.CityTimeZone;
 import javafx.geometry.Insets;
 import javafx.scene.chart.CategoryAxis;
@@ -8,6 +9,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import net.aksingh.owmjapis.api.APIException;
 import net.aksingh.owmjapis.model.HourlyWeatherForecast;
 import net.aksingh.owmjapis.model.param.WeatherData;
 
@@ -23,9 +25,9 @@ public class FiveDaysForecastData extends WeatherForecastData {
     private HourlyWeatherForecast hourlyWeatherForecast;
     private List<LinechartData> listOfLinechartData;
 
-    public FiveDaysForecastData(HourlyWeatherForecast hourlyWeatherForecast) {
+    public FiveDaysForecastData(OWMRepository owmRepository, Integer cityId) throws APIException {
 
-        this.hourlyWeatherForecast = hourlyWeatherForecast;
+        this.hourlyWeatherForecast = owmRepository.getHourlyWeatherForecast(cityId);
         listOfLinechartData = new ArrayList<>();
     }
 

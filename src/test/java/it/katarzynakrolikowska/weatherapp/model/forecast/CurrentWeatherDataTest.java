@@ -1,7 +1,7 @@
 package it.katarzynakrolikowska.weatherapp.model.forecast;
 
 import it.katarzynakrolikowska.weatherapp.mock.MockRepository;
-import it.katarzynakrolikowska.weatherapp.model.owm.OWMService;
+import it.katarzynakrolikowska.weatherapp.model.owm.OWMRepository;
 import net.aksingh.owmjapis.api.APIException;
 import net.aksingh.owmjapis.model.CurrentWeather;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,8 +13,9 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
 class CurrentWeatherDataTest {
+
     private CurrentWeather currentWeather;
-    private OWMService owmService;
+    private OWMRepository owmRepository;
     private CurrentWeatherData currentWeatherData;
 
     @BeforeEach
@@ -22,9 +23,9 @@ class CurrentWeatherDataTest {
 
         //given
         currentWeather = MockRepository.getCurrentWeather();
-        currentWeatherData = new CurrentWeatherData(currentWeather);
-        owmService = mock(OWMService.class);
-        given(owmService.getCurrentWeather(1)).willReturn(currentWeather);
+        owmRepository = mock(OWMRepository.class);
+        given(owmRepository.getCurrentWeather(10)).willReturn(currentWeather);
+        currentWeatherData = new CurrentWeatherData(owmRepository, 10);
     }
 
     @Test
@@ -64,7 +65,7 @@ class CurrentWeatherDataTest {
         String result = currentWeatherData.getCityName();
 
         //then
-        assertThat(result, equalTo("Mountain View"));
+        assertThat(result, equalTo("Mountain Vieew"));
     }
 
     @Test

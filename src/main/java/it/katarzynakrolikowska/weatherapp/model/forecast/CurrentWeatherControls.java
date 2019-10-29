@@ -1,12 +1,10 @@
 package it.katarzynakrolikowska.weatherapp.model.forecast;
 
 import de.jensd.fx.glyphs.weathericons.WeatherIconView;
-import it.katarzynakrolikowska.weatherapp.model.owm.OWMService;
+import it.katarzynakrolikowska.weatherapp.model.owm.OWMRepository;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import net.aksingh.owmjapis.api.APIException;
-
-import static it.katarzynakrolikowska.weatherapp.model.constant.WeatherAppConst.API_KEY;
 
 public class CurrentWeatherControls {
 
@@ -41,10 +39,9 @@ public class CurrentWeatherControls {
         this.cityPressureLabel = cityPressure;
     }
 
-    public void setControlsOfCurrentWeatherForCity(Integer cityId) throws APIException {
+    public void setControlsOfCurrentWeatherForCity(OWMRepository owmRepository, Integer cityId) throws APIException {
 
-        OWMService owmService = new OWMService(API_KEY);
-        CurrentWeatherData currentWeatherData = new CurrentWeatherData(owmService.getCurrentWeather(cityId));
+        CurrentWeatherData currentWeatherData = new CurrentWeatherData(owmRepository, cityId);
         contentVbox.getStyleClass().clear();
         contentVbox.getStyleClass().add(currentWeatherData.getBackgroundCSSClass());
         dateLabel.setText(currentWeatherData.getDate() + currentWeatherData.getStrTimeOffset());

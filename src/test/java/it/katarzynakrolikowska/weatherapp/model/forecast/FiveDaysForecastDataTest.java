@@ -1,30 +1,28 @@
 package it.katarzynakrolikowska.weatherapp.model.forecast;
 
 import it.katarzynakrolikowska.weatherapp.mock.MockRepository;
-import it.katarzynakrolikowska.weatherapp.settings.SystemProperties;
+import it.katarzynakrolikowska.weatherapp.model.owm.OWMRepository;
 import javafx.scene.layout.VBox;
+import net.aksingh.owmjapis.api.APIException;
 import net.aksingh.owmjapis.model.HourlyWeatherForecast;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 
-class FiveDaysForecastDataTest {
-
-
-    @BeforeAll
-    public static void setUpProperties() throws Exception {
-        SystemProperties.setUpHeadlessProperties();
-    }
+class FiveDaysForecastDataTest extends TestHeadlessMode {
 
     @Test
-    void ChartVBoxShouldBeSet() {
+    void chartVBoxShouldBeSet() throws APIException {
 
         //given
         VBox vBox = new VBox();
         HourlyWeatherForecast hourlyWeatherForecast = MockRepository.getHourlyWeatherForecast();
-        FiveDaysForecastData fiveDaysForecastData = new FiveDaysForecastData(hourlyWeatherForecast);
+        OWMRepository owmRepository = mock(OWMRepository.class);
+        given(owmRepository.getHourlyWeatherForecast(10)).willReturn(hourlyWeatherForecast);
+        FiveDaysForecastData fiveDaysForecastData = new FiveDaysForecastData(owmRepository, 10);
 
         //when
         fiveDaysForecastData.setFiveDaysForecast(vBox);

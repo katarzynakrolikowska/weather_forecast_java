@@ -5,12 +5,12 @@ import net.aksingh.owmjapis.core.OWM;
 import net.aksingh.owmjapis.model.CurrentWeather;
 import net.aksingh.owmjapis.model.HourlyWeatherForecast;
 
-public class OWMService {
+public class OWMRepository {
 
     String apiKey;
     OWM owm;
 
-    public OWMService(String apiKey) {
+    public OWMRepository(String apiKey) {
 
         this.apiKey = apiKey;
         owm = new OWM(apiKey);

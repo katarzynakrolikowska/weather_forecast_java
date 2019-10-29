@@ -23,8 +23,8 @@ public class MockRepository {
         System systemData = new System(1, 5122, 0.0139, "US", 1560343627, 1560396563, "pod");
         Wind windData = new Wind(1.5, 50.0, 20.0);
 
-        return new CurrentWeather(1560350192, rainData, snowData, coord, list, "Mountain View", 200,
-                mainData, cloudData, 1, systemData, "stations", windData);
+        return new CurrentWeather(1560350192, rainData, snowData, coord, list, "Mountain Vieew", 200,
+                mainData, cloudData, 1851632, systemData, "stations", windData);
     }
 
     public static WeatherData getWeatherData() {

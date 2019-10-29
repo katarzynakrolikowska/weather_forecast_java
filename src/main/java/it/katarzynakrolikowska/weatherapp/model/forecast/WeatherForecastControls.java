@@ -1,5 +1,6 @@
 package it.katarzynakrolikowska.weatherapp.model.forecast;
 
+import it.katarzynakrolikowska.weatherapp.model.owm.OWMRepository;
 import net.aksingh.owmjapis.api.APIException;
 
 public class WeatherForecastControls {
@@ -14,9 +15,9 @@ public class WeatherForecastControls {
         this.fiveDaysForecastControls = fiveDaysForecastControls;
     }
 
-    public void setControlsOfWeatherForecastForCity(Integer cityId) throws APIException {
+    public void setControlsOfWeatherForecastForCity(OWMRepository owmRepository, Integer cityId) throws APIException {
 
-        currentWeatherControls.setControlsOfCurrentWeatherForCity(cityId);
-        fiveDaysForecastControls.setControlsOfFiveDaysForecastForCity(cityId);
+        currentWeatherControls.setControlsOfCurrentWeatherForCity(owmRepository, cityId);
+        fiveDaysForecastControls.setControlsOfFiveDaysForecastForCity(owmRepository, cityId);
     }
 }
